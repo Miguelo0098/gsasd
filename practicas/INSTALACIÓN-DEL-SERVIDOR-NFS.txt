@@ -1,0 +1,40 @@
+INSTALACIÓN DEL SERVIDOR NFS
+
+Lado del servidor:
+	- Instalamos servidor nfs
+		$ sudo apt-get install nfs-kernel-server
+	- Comprobamos que los puertos de nfs están abiertos
+		$ sudo rpcinfo -p | grep nfs 
+	(el grep nos ayuda a filtrar el resultado obtenido)
+	- Comprobamos que nuestro sistema soporta el sistema de archivos nfs
+		$ sudo cat /proc/filesystems | grep nfs
+		nodev	nfsd
+		nodev	nfs
+		nodev	nfs4
+	(En caso de no obtener este resultado, cargamos los modulos con $sudo modprobe nfs)
+	- Lo siguiente que hacemos es modificar el archivo /etc/exports para hacer que las carpetas que vayamos a compartir estén disponibles para el cliente
+		$sudo nano /etc/exports
+		- Editamos el archivo de manera que quede de la siguiente manera
+		<Directorio> <ip>(rw,sync)
+			- <Directorio>: Directorio del servidor que queremos exportar
+			- <ip>: dirección ip de la máquina cliente a la que damos acceso
+			- rw: permisos de lectura y escritura
+			- ro: permisos de solo lectura
+			- sync: los ficheros se van actualizando conforme se van modificando
+			- root_squash: el usuario root del cliente no es usuario root de la carpeta compartida
+			- no_root_squash: el usuario root del cliente es usuario root de la carpeta compartida
+	- Una vez modificamos el archivo, lo guardamos y tenemos dos opciones para actualizarlo en el servidor: 
+		$ sudo systemctl restart nfs-kernel-server.service (reinicia el servidor nfs)
+		$ exportfs -a (actualiza el archivo /etc/exports al server)
+
+Lado del cliente:
+	- Instalamos el cliente de nfs
+		$ sudo apt-get install nfs-common
+	- Buscamos qué sistemas de archivos podemos montar
+		$ showmount -e <ip-server>
+			muestra la lista de directorios a exportar por un server y los clientes a quien los exporta
+	- Montamos el sistema de archivos con el siguiente comando:
+		$ sudo mount -t nfs <ip-server>:<Directorio-server> <Directorio-cliente>
+	-t nfs: especifica que vamos a montar un sistema de archivos nfs
+	NOTA: al ejecutar este comando no nos permitia montar el sistema de archivos (el server no lo permitía) Para solucionar esto, añadimos el parámetro -o nfsvers=3 para especificar que vamos a usar una version especifica de nfs. Esto solucionó el problema.
+	NOTA2: probandolo con otro compañero, funcionó el comando sin la opción de especificar la versión.
