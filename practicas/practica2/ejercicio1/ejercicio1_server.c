@@ -11,9 +11,7 @@ suma_1_svc(operandos *argp, struct svc_req *rqstp)
 {
 	static int  result;
 
-	/*
-	 * insert server code here
-	 */
+	result = argp->a + argp->b;
 
 	return &result;
 }
@@ -23,9 +21,7 @@ multiplicacion_1_svc(operandos *argp, struct svc_req *rqstp)
 {
 	static int  result;
 
-	/*
-	 * insert server code here
-	 */
+	result = argp->a * argp->b;
 
 	return &result;
 }
@@ -35,9 +31,7 @@ resta_1_svc(operandos *argp, struct svc_req *rqstp)
 {
 	static int  result;
 
-	/*
-	 * insert server code here
-	 */
+	result = argp->a - argp->b;
 
 	return &result;
 }
@@ -47,9 +41,7 @@ division_1_svc(operandos *argp, struct svc_req *rqstp)
 {
 	static int  result;
 
-	/*
-	 * insert server code here
-	 */
+	result = argp->a / argp->b;
 
 	return &result;
 }
