@@ -5,7 +5,7 @@
  */
 
 #include "ejercicio1.h"
-
+#include <stdlib.h>
 
 void
 calculadora_prog_1(char *host)
@@ -27,6 +27,12 @@ calculadora_prog_1(char *host)
 		exit (1);
 	}
 #endif	/* DEBUG */
+
+	/*-------------------------------------------------
+		Creamos la interfaz de dialogo para el usuario
+	-------------------------------------------------*/
+
+
 
 	result_1 = suma_1(&suma_1_arg, clnt);
 	if (result_1 == (int *) NULL) {
