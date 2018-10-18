@@ -11,14 +11,11 @@ void
 calculadora_prog_1(char *host)
 {
 	CLIENT *clnt;
+	operandos  enteros;
 	int  *result_1;
-	operandos  suma_1_arg;
 	int  *result_2;
-	operandos  multiplicacion_1_arg;
 	int  *result_3;
-	operandos  resta_1_arg;
 	int  *result_4;
-	operandos  division_1_arg;
 
 #ifndef	DEBUG
 	clnt = clnt_create (host, CALCULADORA_PROG, CALCULADORA_VERS, "udp");
@@ -31,28 +28,51 @@ calculadora_prog_1(char *host)
 	/*-------------------------------------------------
 		Creamos la interfaz de dialogo para el usuario
 	-------------------------------------------------*/
-
-
-
-	result_1 = suma_1(&suma_1_arg, clnt);
-	if (result_1 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
+	int opcion = 1;
+	while(opcion != 0){
+		system(clear);
+		
+		printf("CALCULADORA\n\n");
+		printf("Escoja una opción:\n");
+		printf("1: Sumar dos enteros.\n");
+		printf("2: Multiplicar dos enteros.\n");
+		printf("3: Restar dos enteros.\n");
+		printf("4: Dividir dos enteros.\n");
+		printf("0: Salir.\n\n");
+		printf("Opción: ");
+		scanf("%d", &opcion);
+		printf("\nIntroduzca el primer operando: ");
+		scanf("%d", &enteros->a);
+		printf("\nIntroduzca el segundo operando: ");
+		scanf("%d", &enteros->b);
+		
+		switch(opcion){
+			case 1:
+				result_1 = suma_1(&enteros, clnt);
+				if (result_1 == (int *) NULL) {
+					clnt_perror (clnt, "call failed");
+				}
+				/*COMPLETAR AQUI*/
+				printf("")
+		
+		result_2 = multiplicacion_1(&enteros, clnt);
+		if (result_2 == (int *) NULL) {
+			clnt_perror (clnt, "call failed");
+		}
+		result_3 = resta_1(&enteros, clnt);
+		if (result_3 == (int *) NULL) {
+			clnt_perror (clnt, "call failed");
+		}
+		result_4 = division_1(&enteros, clnt);
+		if (result_4 == (int *) NULL) {
+			clnt_perror (clnt, "call failed");
+		}
+		
 	}
-	result_2 = multiplicacion_1(&multiplicacion_1_arg, clnt);
-	if (result_2 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-	result_3 = resta_1(&resta_1_arg, clnt);
-	if (result_3 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-	result_4 = division_1(&division_1_arg, clnt);
-	if (result_4 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-#ifndef	DEBUG
-	clnt_destroy (clnt);
-#endif	 /* DEBUG */
+	#ifndef	DEBUG
+		clnt_destroy (clnt);
+	#endif	 /* DEBUG */
+	
 }
 
 
