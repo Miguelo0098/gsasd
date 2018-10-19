@@ -18,6 +18,6 @@ int main(int argc, char const *argv[]) {
   }
   clock_t end = clock();
   double tiempo_ejecucion = (begin - end) / CLOCKS_PER_SEC;
-  printf("Tiempo: %d", tiempo_ejecucion);
+  printf("Tiempo: %f", tiempo_ejecucion);
   return 0;
 }
