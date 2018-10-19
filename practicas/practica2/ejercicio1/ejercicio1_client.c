@@ -11,11 +11,8 @@ void
 calculadora_prog_1(char *host)
 {
 	CLIENT *clnt;
-	operandos  enteros;
-	int  *result_1;
-	int  *result_2;
-	int  *result_3;
-	int  *result_4;
+	operandos enteros;
+	int  *result;
 
 #ifndef	DEBUG
 	clnt = clnt_create (host, CALCULADORA_PROG, CALCULADORA_VERS, "udp");
@@ -30,8 +27,8 @@ calculadora_prog_1(char *host)
 	-------------------------------------------------*/
 	int opcion = 1;
 	while(opcion != 0){
-		system(clear);
-		
+		system("clear");
+
 		printf("CALCULADORA\n\n");
 		printf("Escoja una opción:\n");
 		printf("1: Sumar dos enteros.\n");
@@ -41,38 +38,71 @@ calculadora_prog_1(char *host)
 		printf("0: Salir.\n\n");
 		printf("Opción: ");
 		scanf("%d", &opcion);
-		printf("\nIntroduzca el primer operando: ");
-		scanf("%d", &enteros->a);
-		printf("\nIntroduzca el segundo operando: ");
-		scanf("%d", &enteros->b);
-		
+
+		if (opcion != 0 && opcion < 5) {
+			printf("\nIntroduzca el primer operando: ");
+			scanf("%d", &enteros.a);
+			printf("\nIntroduzca el segundo operando: ");
+			scanf("%d", &enteros.b);
+		}
+
 		switch(opcion){
 			case 1:
-				result_1 = suma_1(&enteros, clnt);
-				if (result_1 == (int *) NULL) {
+				result = suma_1(&enteros, clnt);
+				if (result == (int *) NULL) {
 					clnt_perror (clnt, "call failed");
 				}
-				/*COMPLETAR AQUI*/
-				printf("")
-		
-		result_2 = multiplicacion_1(&enteros, clnt);
-		if (result_2 == (int *) NULL) {
-			clnt_perror (clnt, "call failed");
+
+				break;
+
+			case 2:
+				result = multiplicacion_1(&enteros, clnt);
+				if (result == (int *) NULL) {
+					clnt_perror (clnt, "call failed");
+				}
+
+				break;
+			case 3:
+				result = resta_1(&enteros, clnt);
+				if (result == (int *) NULL) {
+					clnt_perror (clnt, "call failed");
+				}
+
+				break;
+			case 4:
+				if (enteros.b == 0) {
+					printf("ERROR: no se puede dividir entre 0\n");
+					*result = 0;
+					break;
+				}
+				result = division_1(&enteros, clnt);
+				if (result == (int *) NULL) {
+					clnt_perror (clnt, "call failed");
+				}
+
+				break;
+			case 0:
+				system("clear");
+				printf("\nFIN DEL PROGRAMA\n");
+				break;
+
+			default:
+				printf("La opción introducida no es correcta. Presione una tecla para continuar\n");
+				getchar();getchar();
 		}
-		result_3 = resta_1(&enteros, clnt);
-		if (result_3 == (int *) NULL) {
-			clnt_perror (clnt, "call failed");
+
+
+		if (opcion != 0 && opcion < 5) {
+			printf("Resultado: %d\n", *result);
+			printf("Presione una tecla para continuar\n");
+			getchar();getchar();
+
 		}
-		result_4 = division_1(&enteros, clnt);
-		if (result_4 == (int *) NULL) {
-			clnt_perror (clnt, "call failed");
-		}
-		
 	}
 	#ifndef	DEBUG
 		clnt_destroy (clnt);
 	#endif	 /* DEBUG */
-	
+
 }
 
 
