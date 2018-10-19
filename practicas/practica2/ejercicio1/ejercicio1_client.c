@@ -72,12 +72,15 @@ calculadora_prog_1(char *host)
 			case 4:
 				if (enteros.b == 0) {
 					printf("ERROR: no se puede dividir entre 0\n");
-					*result = 0;
-					break;
-				}
-				result = division_1(&enteros, clnt);
-				if (result == (int *) NULL) {
-					clnt_perror (clnt, "call failed");
+					printf("Presione una tecla para continuar\n");
+					getchar();getchar();
+					opcion = 5;
+
+				}else{
+					result = division_1(&enteros, clnt);
+					if (result == (int *) NULL) {
+						clnt_perror (clnt, "call failed");
+					}
 				}
 
 				break;
