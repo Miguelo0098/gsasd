@@ -17,7 +17,7 @@ int main(int argc, char const *argv[]) {
     result = sumar(a, b);
   }
   clock_t end = clock();
-  double tiempo_ejecucion = (begin - end) / CLOCK_PER_SEC;
+  double tiempo_ejecucion = (begin - end) / CLOCKS_PER_SEC;
   printf("Tiempo: %d", tiempo_ejecucion);
   return 0;
 }
