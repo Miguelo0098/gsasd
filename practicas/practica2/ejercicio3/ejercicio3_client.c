@@ -5,11 +5,13 @@
  */
 
 #include "ejercicio3.h"
+#include <time.h>
 
 
 void
 suma_prog_1(char *host)
 {
+	srand(time(NULL));
 	CLIENT *clnt;
 	int  *result_1;
 	operandos  suma_1_arg;
@@ -22,10 +24,8 @@ suma_prog_1(char *host)
 	}
 #endif	/* DEBUG */
 
-	result_1 = suma_1(&suma_1_arg, clnt);
-	if (result_1 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
+/*COMPLETAR COMANDOS DE ARGUMENTOS Y BUCLE FOR*/
+
 #ifndef	DEBUG
 	clnt_destroy (clnt);
 #endif	 /* DEBUG */
@@ -35,6 +35,7 @@ suma_prog_1(char *host)
 int
 main (int argc, char *argv[])
 {
+	clock_t begin = clock();
 	char *host;
 
 	if (argc < 2) {
@@ -43,5 +44,8 @@ main (int argc, char *argv[])
 	}
 	host = argv[1];
 	suma_prog_1 (host);
-exit (0);
+
+	clock_t end = clock();
+	double tiempo_ejecucion = (double) (end-begin) / CLOCKS_PER_SEC;
+	exit (0);
 }
