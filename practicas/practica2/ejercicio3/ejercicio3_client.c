@@ -25,7 +25,7 @@ suma_prog_1(char *host)
 #endif	/* DEBUG */
 	suma_1_arg.a = rand()%10;
 	suma_1_arg.b = rand()%10;
-	result_1 = suma_prog_1(&suma_1_arg, clnt);
+	result_1 = suma_1(&suma_1_arg, clnt);
 	if (result_1 == (int *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
