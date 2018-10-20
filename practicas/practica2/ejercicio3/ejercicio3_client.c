@@ -23,8 +23,12 @@ suma_prog_1(char *host)
 		exit (1);
 	}
 #endif	/* DEBUG */
-
-/*COMPLETAR COMANDOS DE ARGUMENTOS Y BUCLE FOR*/
+	suma_1_arg.a = rand()%10;
+	suma_1_arg.b = rand()%10;
+	result_1 = suma_prog_1(&suma_1_arg, clnt);
+	if (result_1 == (int *) NULL) {
+		clnt_perror (clnt, "call failed");
+	}
 
 #ifndef	DEBUG
 	clnt_destroy (clnt);
@@ -42,10 +46,15 @@ main (int argc, char *argv[])
 		printf ("usage: %s server_host\n", argv[0]);
 		exit (1);
 	}
+
 	host = argv[1];
-	suma_prog_1 (host);
+	for (int i = 0; i < 100000; i++) {
+		suma_prog_1 (host);
+	}
+
 
 	clock_t end = clock();
 	double tiempo_ejecucion = (double) (end-begin) / CLOCKS_PER_SEC;
+	printf("TIEMPO DE EJECUCIÓN: %f\n", tiempo_ejecucion);
 	exit (0);
 }
