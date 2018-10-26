@@ -39,7 +39,7 @@ suma_prog_1(char *host)
 int
 main (int argc, char *argv[])
 {
-	clock_t begin = clock();
+	time_t begin = time(NULL);
 	char *host;
 
 	if (argc < 2) {
@@ -48,13 +48,13 @@ main (int argc, char *argv[])
 	}
 
 	host = argv[1];
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < 100000; i++) {
 		suma_prog_1 (host);
 	}
 
 
-	clock_t end = clock();
-	double tiempo_ejecucion = (double) (end-begin) / CLOCKS_PER_SEC;
+	time_t end = time(NULL);
+	double tiempo_ejecucion = (double) difftime(end, begin);
 	printf("TIEMPO DE EJECUCIÓN: %f\n", tiempo_ejecucion);
 	exit (0);
 }
