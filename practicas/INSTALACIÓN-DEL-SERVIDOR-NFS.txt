@@ -38,3 +38,6 @@ Lado del cliente:
 	-t nfs: especifica que vamos a montar un sistema de archivos nfs
 	NOTA: al ejecutar este comando no nos permitia montar el sistema de archivos (el server no lo permitía) Para solucionar esto, añadimos el parámetro -o nfsvers=3 para especificar que vamos a usar una version especifica de nfs. Esto solucionó el problema.
 	NOTA2: probandolo con otro compañero, funcionó el comando sin la opción de especificar la versión.
+
+	- PARA DESMONTAR: 
+		$ sudo umount <Directorio-local> 
