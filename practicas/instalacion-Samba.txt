@@ -1,0 +1,21 @@
+Instalar samba: 
+	$ sudo apt-get install samba
+
+Creamos el directorio a compartir
+	$ mkdir /home/public/Musica
+	$ mkdir /home/public/Peliculas
+	$ mkdir /home/public/Fotos
+
+Configuramos el servidor samba en el archivo /etc/samba/smb.conf
+	$ sudo nano /etc/samba/smb.conf
+Estructura:
+	[<nombre-carpeta>]
+		comment = <descripción-carpeta>
+		path = <Directorio-carpeta>
+		read only = no(lectura y escritura)/yes(solo lectura)
+		browsable = yes(La carpeta aparecerá en el apartado "Network" del gestor de archivos de Ubuntu)
+Reiniciamos el servicio
+	$ sudo service smbd restart
+
+Conectar con el servidor desde el cliente:
+	En un gestor de archivos: smb://<ip-server>/<Nombre-Directorio>
