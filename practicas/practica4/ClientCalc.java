@@ -4,7 +4,7 @@ import org.apache.axis.encoding.XMLType;
 
 import javax.xml.rpc.ParameterMode;
 
-public class ClienteCalc
+public class ClientCalc
 {
    public static void main(String [] args) throws Exception {
 
@@ -20,7 +20,7 @@ public class ClienteCalc
            System.err.println("Uso: ClienteCalc <sumar|restar|multiplicar|dividir> arg1 arg2");
            return;
        }
-       if (method.equals("dividir") && args[2] == 0) {
+       if (method.equals("dividir") && (args[2].equals("0"))) {
            System.err.println("ERROR: no se puede dividir entre 0");
            return;
        }
