@@ -8,16 +8,20 @@ public class ClienteCalc
 {
    public static void main(String [] args) throws Exception {
 
-       String endpoint = "http://servidorprueba.com:8080/axis/Calculadora.jws";
+       String endpoint = "http://localhost:8081/axis/Calculadora.jws";
 
        if (args == null || args.length != 3) {
-           System.err.println("Uso: ClienteCalc <sumar|restar> arg1 arg2");
+           System.err.println("Uso: ClienteCalc <sumar|restar|multiplicar|dividir> arg1 arg2");
            return;
        }
 
        String method = args[0];
-       if (!(method.equals("sumar") || method.equals("restar"))) {
-           System.err.println("Uso: ClienteCalc <sumar|restar> arg1 arg2");
+       if (!(method.equals("sumar") || method.equals("restar") || method.equals("multiplicar") || method.equals("dividir"))) {
+           System.err.println("Uso: ClienteCalc <sumar|restar|multiplicar|dividir> arg1 arg2");
+           return;
+       }
+       if (method.equals("dividir") && args[2] == 0) {
+           System.err.println("ERROR: no se puede dividir entre 0");
            return;
        }
 
