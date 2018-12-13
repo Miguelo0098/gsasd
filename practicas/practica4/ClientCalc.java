@@ -28,8 +28,9 @@ public class ClientCalc
        Integer i1 = new Integer(args[1]);
        Integer i2 = new Integer(args[2]);
 
-       Service  service = new Service();
-       Call     call    = (Call) service.createCall();
+
+       Service service = new Service();
+       Call call = (Call) service.createCall();
 
        call.setTargetEndpointAddress( new java.net.URL(endpoint) );
        call.setOperationName( method );

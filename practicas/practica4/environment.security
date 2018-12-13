@@ -1,0 +1,8 @@
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/axis2/bin"
+JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+CATALINA_HOME="opt/tomcat/apache-tomcat-9.0.13"
+AXIS2_HOME="/opt/axis2"
+AXIS_HOME="/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF"
+AXIS_LIB="/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib"
+AXISCLASSPATH="/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib/axis.jar:/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib/commons-discovery-0.2.jar:/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib/commons-logging-1.0.4.jar:/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib/jaxrpc.jar:/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib/saaj.jar:/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib/log4j-1.2.8.jar:/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib/wsdl4j-1.5.1.jar:/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib/axis-ant.jar"
+CLASSPATH="/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib/axis.jar:/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib/commons-discovery-0.2.jar:/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib/commons-logging-1.0.4.jar:/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib/jaxrpc.jar:/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib/saaj.jar:/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib/log4j-1.2.8.jar:/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib/wsdl4j-1.5.1.jar:/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/lib/axis-ant.jar:/opt/tomcat/apache-tomcat-9.0.13/webapps/axis:/opt/tomcat/apache-tomcat-9.0.13/webapps/axis/WEB-INF/classes:/home/miguelo/Documentos/tercer\ curso/GSASD/practicas/practica4"
