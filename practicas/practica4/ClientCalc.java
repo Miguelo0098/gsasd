@@ -8,7 +8,7 @@ public class ClientCalc
 {
    public static void main(String [] args) throws Exception {
 
-       String endpoint = "http://localhost:8081/axis/Calculadora.jws";
+       String endpoint = "http://localhost:8081/axis/services/Calculo";
 
        if (args == null || args.length != 3) {
            System.err.println("Uso: ClienteCalc <sumar|restar|multiplicar|dividir> arg1 arg2");
