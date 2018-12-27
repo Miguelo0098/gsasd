@@ -1,0 +1,29 @@
+Tema 1: Características de los ficheros distribuidos
+
+- Propiedades
+	- Proporcionan almacenamiento permanente de info.
+	- Identifica los ficheros en un espacio de nombres.
+	- Es posible el acceso concurrente desde varios procesos.
+	- En sistemas multiusuario proporciona protección de accesos.
+	- Transparencia en la identificación
+	- Transparencia en la ubicación
+	- Escalabilidad
+	- Robustez ante fallos
+	- Disponibilidad
+	- Tolerancia a fallos
+	- Consistencia
+	- Seguridad
+
+- Características del uso de ficheros
+	- El diseño de un sistema de ficheros distribuido que proporcione un buen nivel de rendimiento deberá basarse en las características de uso de los ficheros por las aplicaciones.
+
+- Modelo
+	- El modelo de sistema de ficheros distribuido que vamos a definir aquí considera una estructura cliente-servidor que incluye:
+		- Servicio de ficheros
+		- Servicio de nombres
+		- Mecanismo de identificacion única de ficheros
+	- Estructura
+		- Cliente. Interfaz local con la aplicación
+		- Servicio de ficheros
+		- Servicio de nombres
+		(continua dp 9)
