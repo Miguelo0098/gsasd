@@ -26,4 +26,58 @@ Tema 1: Características de los ficheros distribuidos
 		- Cliente. Interfaz local con la aplicación
 		- Servicio de ficheros
 		- Servicio de nombres
-		(continua dp 9)
+	- Identificación de ficheros
+		- El cliente especifica un fichero al servidor de ficheros mediante el identificador único de ficheros, UFID, expedido por el servidor de ficheros cuando se crea un fichero
+		- El UFID requiere identificar el servidor del fichero, S; el fichero dentro del servidor, F; los derechos de acceso sobre el fichero, D
+		- Los UFIDs deben protegerse de la manipulación por el cliente.
+	- Identificación de ficheros
+		(ver apuntes)
+		
+- Servidor de nombres
+	- El servidor de nombres permite al cliente determinar la ubicación de un fichero (UFID) a partir de su PATH
+	- Estrictamente es un servidor de directorios
+	- EL arbol de directorios se divide en dominios
+	- Un dominio está asociado a una parte del árbol de directorios o PATH
+	- Un servidor de nombres gestiona uno o más dominios
+	- El cliente mantiene una tabla (dominio (PATH), servidor de nombres)
+	- Un servidor de nombres puede resolver el PATH como asociado a un dominio mantenido por otro servidor de nombres
+	- Esquemas de navegación
+		- Iterativa
+		- Recursiva
+		- Para disminuir latencias, los servicios de nombres hacen un extenso uso del caching,
+		- Como la migración de dominios entre servidores es infrecuente, no suele ser un objetivo prioritario del servicio de nombres el prevenir las posibles situaciones de identificación errónea de dominios debidas al caching.
+		
+- Servidores de ficheros
+	- El objetivo en el diseño de los servidores de ficheros distribuidos es el proporcionar una semántica lo más cercana posible a la que ofrecen los sistemas centralizados sin incurrir en una fuerte penalización en el rendimiento (fundamentalmente la latencia).
+	- Utilizan extensamente el caching
+	- Utilizan mecanismos de gestión de las copias que permiten compromisos razonables entre semántica y rendimiento.
+	- Semánticas de compartición
+		- Semántica UNIX
+		- Semántica de sesión
+		- Ficheros inmutables
+		- Semántica de transacciones
+	- Tipos de servidores
+		- Dependiendo de la información que almacena el servidor acerca del fichero que está siendo accedido por un cliente, se pueden distinguir dos categorias de servidores: con estados y sin estados
+		- Ficheros con estado: el servidor crea una entrada para el fichero ante una invocación de abrir fichero de un cliente, almacena el apuntador a la última posición accedida y otra información.
+		- Ficheros sin estado: las operaciones son idempotentes
+		
+- Caching y gestión de la consistencia
+	- Almacenamiento temporal de (trozos de) ficheros en el nodo cliente, con el objetivo de minimizar los costes de comunicación
+	- La unidad de gestión o cantidad de información que se transmite en cada peticion puede ser un bloque o el fichero completo
+	- Transmitir cantidades grandes de información proporciona lectura anticipada (buffering), que potencia tambien la localidad espacial
+	- Tipos según el almacenamiento: persistente o no persistente
+	- Caching estructurado
+		- Generalización del almacenamiento temporal
+		- Almacenamiento temporal en nodos intermedios a diferentes niveles
+		- Este servicio es el que ofrecen los nodos proxy en internet.
+	- El caching, como toda forma de replicación, lleva asociada la necesidad de gestionar la consistencia
+	- La política de gestión de la consistencia condiciona la semántica de compartición 
+	- Políticas básicas para gestionar la consistencia
+		- Write through
+		- Write-on-close
+		- Gestión centralizada
+	- Políticas básicas de validación
+		- Permiten a un nodo conocer cuando la réplica de un fichero que se está usando en su cache ha quedado obsoleta por la actualización de otra réplica del mismo fichero en otro nodo (no necesariamente el servidor)
+		- No necesarias en gestión centralizada
+		- Dos políticas básicas en función de donde parta la iniciativa (desde los clientes o desde el servidor)
+		
