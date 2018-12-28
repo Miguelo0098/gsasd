@@ -1,0 +1,114 @@
+Tema 2 Sistemas de archivos distribuidos NFS (Network File System)
+
+- NFS: Instroducción
+	- Introducido por Sun Microsystems en 1985
+	- Desarrollado originalmente para UNIX
+	- Se concibió como sistema abierto
+	- NFS ha evolucionado mucho, y la versión 4 ya que incluye estado y la posibilidad de implementación en WAN
+
+- NFS: Características generales
+	- Los servidores exportan directorios
+	- Para hacer exportable un directorio se incluye el path en un determinado fichero de configuración
+	- Los clientes montan los directorios exportados, y estos se ven en el cliente completamente integrados en el sistema de ficheros
+	- El montaje se ejecuta en el booting del sistema operativo, o por demanda cuando se abre un fichero mediante un servicio adicional de NFS, el automounter.
+	- Demonio nfsd atiende las operaciones sobre ficheros
+	- Demonio mountd atiende las operaciones de montado
+	- Servidores NFS son sin estado
+	- La semántica de compartición intenta ser UNIX, aunque con alguna limitación
+	- Ofrece el mismo modelo de protección de UNIX
+	- Inicialmente NFS no adopta ningún mecanismo de autenticación
+	- Actualmente suele combinarse con sistemas de autenticación como Kerberos
+	- NFS utiliza clasicamente el servicio NIS (Network Information Server) para centralizar la información sobre ubicación de los servidores
+	- El módulo servidor NFS reside en el núcleo que actúa de servidor
+	- El módulo cliente traduce las operaciones sobre ficheros remotos a operaciones del protocolo NFS que traslada al módulo servidor
+	- La comunicación se hace mediante RPC (Remote Procedure Call)
+	- La interfaz es abierta
+
+- NFS: Sistemas de archivos virtuales
+	- El sistema de archivos virtuales o Virtual File System (VFS) proporcionan acceso transparente
+	- Los usuarios no distinguen entre ficheros locales y remotos
+	- Los identificadores de ficheros utilizados en NFS se llaman apuntadores de ficheros (File Handles)
+	- File handle = id de File System + Número de i-nodo + número de generación de i-nodos
+	- El VFS mantiene una estructura VFS por cada sistema de archivos montado
+	- Un v-nodo por archivo abierto
+
+- NFS: Integración del cliente
+	- El cliente de NFS está integrado en el núcleo de UNIX
+
+- NFS: Control de acceso y autenticación
+	- El sistema UNIX es un sistema con estados
+	- El servidor NFS es sin estados
+	- No hay una llamada en el protocolo Sun RPC que haga la identificación, sino que es parte del protocolo
+	- Seguridad: el cliente puede incluir el ide de cualquier usuario haciéndose pasar por él. Para evitarlo, se combina con Kerberos
+
+- NFS: interfaz RPC del servidor NFS (ver apuntes)
+
+- NFS: Servicio de montado
+	- El servicio de montado está separado y se ejecuta a nivel de usuario en cada computadora servidor
+	- /etc/exports contiene los sistemas de ficheros locales que se exportan y las máquinas autorizadas
+	- El montado en el cliente se realiza sobre un fichero existente.
+	- Los volumenes pueden montarse de dos formas
+		- Montado rígido (hard-mounted)
+		- Montado flexible (soft-mounted)
+
+- NFS: traducción de un nombre de ruta
+	- Unix traduce una ruta de archivo a un i-nodo cuando se hace una llamada a open, create o stat
+	- En NFS los nombres no pueden traducirse en el servidor ya que pueden cruzar un punto de montado en un cliente
+	- Los nombres de ruta se analizan y traducen en el cliente
+
+- NFS: Automontador
+	- Se añadió a NFS para poder montar directorios remotos dinámicamente
+	- Funcionamiento:
+		- Se mantiene una tabla de puntos de montaje con la referencia a uno o más servidores
+		- Cuando el cliente solicita un volumen remoto hace una llamada lookup al demonio automount local
+		- El automontador manda una solicitud de prueba a todos los servidores de la tabla
+		- Monta el volumen del primer servidor en responder con un enlace simbólico
+		- Cuando no hay referencias al enlace simbólico durante un tiempo este se desmonta
+		- Puede conseguirse una forma de replicación sencilla
+
+- NFS: Cache en el servidor
+	- Unix retiene en una cache buffer de memoria principal páginas de archivo, directorios y atributos de archivos
+	- Todos los procesos de lectura/escritura pasan por la cache
+	- Los servidores NFS necesitan medidas extras para las escrituras
+	- La operacion write tiene dos opciones:
+		- Escritura a través o write-throught de la cache
+		- Los datos solo se almacenan en la cache hasta que se hace una operación de consumación o commit
+
+- NFS: Cache en el cliente
+	- El módulo cliente emplea la cache para los resultados de las operaciones read, write, getattr, lookup y readdir
+	- Las escrituras de un cliente no producen la modificación de las cache de los otros clientes
+	- Los clientes sondean al servidor para comprobar la correspondencia con la caché del servidor
+	- Para validar los bloques en la cache cada elemento de datos o metadato de la cache se etiqueta con dos marcas: 
+		- Tc Tiempo ultima validacion de cache
+		- Tm Tiempo ultima modificacion en la cache del servidor
+	- Una entrada en la caché es valida en el tiempo T cuando:
+		- (T-Tc < t) v (Tmcliente = Tmservidor)
+		- t es un intervalo de refresco [3,30]segundos para ficheros, [30,60] Directorios
+	- Un cliente no sabe si un archivo está siendo compartido o no
+	- Procedimiento de validacion (ver pág 25)
+	- Medidas para reducir el tráfico de llamadas getattr al servidor
+	- Fuentes de retardo
+	- Las aplicaciones UNIX no dependen de forma crítica de la sincronización de las actualizaciones
+	- Escrituras
+		- Cuando se modifica una página en cache se marca como sucia y se planifica asincronamente su volcado al servidor
+	- Lecturas adelantadas y escrituras retardadas
+		- Utilizando Block input-output demonios en cada cliente
+
+- NFS: Otras optimizaciones
+	- Los paquetes UDP utilizados en RPC son de 9 byte y UNIX utiliza 8 byte como tamaño del bloque de disco
+	- NFSv3 no hay tamaño máximo de los bloques de archivos que manejan las operaciones write y read
+	- Todas las operaciones tienen implícita una operacion getattr para pedir el Tmservidor
+
+- NFS: NFS seguro con Kerberos
+	- En NFS la identificacion del usuario se incluye en cada solicitud como un identificador numérico no encriptado o encriptado en versiones posteriores
+	- Al no tener estados NFS, Kerberos necesitaria hacer una comprobación en cada operacion
+	- Se opta por proporcionar al servidor de montado NFS todos los datos de autenticacion de Kerberos para el usuario cuando se montan sus volúmenes raiz y home
+
+- NFS: Prestaciones
+	- En general, en una red de área local las prestaciones no se ven muy degradadas si el diseño es bueno
+	- Existen programas de pruebas conocidos como LADDIS cuyos resultados se pueden consultar en www.spec.org
+
+- NFS: Limitaciones
+	- Se pueden aumentar las prestaciones de un único servidor añadiendo procesadores, discos y controladores
+	- Otra opción, o cuando se alcanza el límite de la anterior, es la replicación, es decir, utilizar varios servidores NFS
+	- Si necesitamos replicar ficheros actualizables debemos recurrir a otros sistemas de ficheros distribuidos
