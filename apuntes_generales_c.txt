@@ -1,0 +1,20 @@
+Tema 3: Sistemas de archivos distribuidos AFS (Andrew File System)
+
+- AFS: Introducción
+	- Sistema de ficheros distribuido que proporciona acceso transparente a archivos remotos para los programas UNIX que se ejecutan en una estacion de trabajo
+	- Los servidores AFS mantienen los archivos UNIX "locales", pero el sistema de ficheros en los servidores está basado en NFS
+	- La principal ventaja de AFS frente a NFS es la "escalabilidad"
+	- Principales características
+		- Servicio de transferencia de archivos completos
+		- Cache de archivos completos
+	- Funcionamiento
+		- Cuando un proceso en el cliente solicita un fichero que no posee, hace una llamada al servidor para copiar el fichero
+		- El fichero se almacena en el sistema de archivos local
+		- Todas las operaciones read, write, etc, se aplican a la copia local
+		- Cuando se cierra el fichero, si se ha cambiado se actualiza en el servidor y la copia local permanece en el almacenamiento local
+	- Consideraciones
+		- La abrumadora mayoria de accesos se hacen sobre ficheros actualizados infrecuentemente, ficheros accedidos normalmente por un solo usuario
+		- La caché local puede reservar una proporción sustancial del espacio de disco en cada estación, (100 Mb, 1 Gb)
+		- Las observaciones de cargas de trabajo UNIX típicas en diferentes entornos se utilizarán para hacer suposiciones sobre tamaños, máximo de archivos y proximidad de referencia
+		- Observaciones: archivos pequeños, más lectura que escritura, acceso secuencial habitual, ficheros leidos y escritos por un solo usuario...
+		- Bases de datos.
