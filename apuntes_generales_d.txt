@@ -1,1 +1,17 @@
+Tema 4: Coda
 
+- Coda: Introducción
+    - Intenta solucionar distintos requisitos que AFS no cumple
+    - Coda aborda un diseño cuyo principio fundamental es la disponibilidad constante de los datos
+
+- Coda: Arquitectura
+    - Utiliza la misma terminología que AFS (vice y venus)
+    - El conjunto de servidores que mantiene las réplicas de un volumen de archivos se conoce como grupo de almacenamiento del volumen (VSG, volume storage group)
+    - Un cliente que quiera acceder a un fichero en dicho volumen accederá al grupo de almacenamiento disponible (VSGA, Available VSG)
+    - Como en AFS a los clientes se les notifica los cambios en los ficheros utilizando el mecanismo de promesa de devolucion de llamada, pero se añade un servicio de distribución de actualizaciones a cada réplica
+    - Cuando AVSG está vacío, se dice que trabaja sin conexión
+    - Las copias del cliente se validan periodicamente cuando hay conexión
+    - Para trabajar sin conexión se necesita tener en la cache todos los ficheros necesarios para trabajar
+    - Cuando la conexión restablece se comprueba la validez y se armonizan las copias de los clientes con las de los servidores
+    - Se apoya en la inclusión en cada versión de un fichero de un vector de versiones Coda (Coda Version Vector CVV)
+    
