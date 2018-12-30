@@ -18,3 +18,44 @@ Tema 3: Sistemas de archivos distribuidos AFS (Andrew File System)
 		- Las observaciones de cargas de trabajo UNIX típicas en diferentes entornos se utilizarán para hacer suposiciones sobre tamaños, máximo de archivos y proximidad de referencia
 		- Observaciones: archivos pequeños, más lectura que escritura, acceso secuencial habitual, ficheros leidos y escritos por un solo usuario...
 		- Bases de datos.
+
+- AFS: Implementación
+	- Implementación como dos procesos: Vice(servidor) y Venus(cliente)
+	- Los archivos locales se manejan como archivos normales UNIX
+	- Los archivos remotos se almacenan en los servidores y son transferidos a las caches de los discos locales de los clientes
+	- Siguen una jerarquia convencional de directorios UNIX con un subárbol específico /cmu que contiene todos los archivos compartidos
+	- El núcleo UNIX es una versión modificada de UNIX BSD
+	- En el disco local se usa una partición del disco como una cache que mantiene las copias de los ficheros remotos
+	- Los archivos se agrupan en volúmenes para facilitar la localización y mantenimiento
+	- Cada fichero o directorio se identifica con un id de archivo único (ida), de 96 bits semejante al UFID
+	- Llamadas al sistema en AFS (ver pag 14)
+
+- AFS: Consistencia de la cache
+	- Cuando Vice proporciona una copia de un archivo a Venus también le proporciona una promesa de devolución de llamada
+	- Cuando una estación de trabajo se rearranca pueden haberse perdido algunas devoluciones de llamada. Así que Vice para fichero de la cache con testigo válido Venus hace lo siguiente
+		- Venus envía una petición de validación de la cache a Vice con el tiempo de modificación
+		- Si la marca de tiempo coincide con la del servidor, se valida; si no, se cancela
+	- Para prevenir algunas posibles pérdidas de comunicación, las promesas de devolución de llamada deben ser renovadas antes de cada open si ha transcurrido un tiempo T, normalmente del orden de unos pocos minutos
+	- En AFS-1 antes de cada open se interrogaba al Vice con la marca de tiempo para ver la validez del fichero.
+	- En AFS-2 y siguientes se emplea la promesa de devolución de llamada
+	- Interfaz RPC de los servidores AFS para operaciones sobre ficheros (ver pág 19)
+	- Si se produce una operación open y se tiene una copia en la cache y no ha transcurrido un tiempo T se entiende válida la copia
+	- Si varios clientes hacen un open y modifican su copia, esta no se modifica en el servidor hasta que no hacen un close del fichero
+	- Este tipo de inconsistencias en principio no plantea problemas para la mayoría de las aplicaciones UNIX
+
+- AFS: Otros aspectos
+	- Modificaciones del núcleo UNIX del servidor
+	- Bases de datos de ubicación
+	- Hilos
+	- Réplicas de sólo lectura
+	- Transferencias al por mayor
+	- Cacheado parcial de ficheros
+	- Prestaciones
+	- Soporte de área amplia
+
+- AFS: Avances recientes
+	- Obtención de la semántica de actualización de una copia
+	- NQNFS (Not Quite NFS)
+	- WebNFS
+	- NFSv4 (NFS versión 4)
+	- Mejoras en la organización del almacenamiento
