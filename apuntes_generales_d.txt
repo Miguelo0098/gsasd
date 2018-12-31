@@ -14,4 +14,62 @@ Tema 4: Coda
     - Para trabajar sin conexión se necesita tener en la cache todos los ficheros necesarios para trabajar
     - Cuando la conexión restablece se comprueba la validez y se armonizan las copias de los clientes con las de los servidores
     - Se apoya en la inclusión en cada versión de un fichero de un vector de versiones Coda (Coda Version Vector CVV)
-    
+
+- Coda: Estrategias de replicación
+    - Relojes Vectoriales(Ver pag 6)
+    - Cuando no se cumple que Ve <= Vc o que Vc <= Ve para dos CVV entonces hay un conflicto
+        - Acciones: el fichero se declara como inapropiado y se informa al propietario
+    - Cuando se cierra un fichero modificado
+        - Venus envia un mensaje de actualización a cada sitio en el AVSG
+        - Cada VICE de AVSG comprueba si el CVV es mayor y si es asi actualiza los datos del fichero y devuelve acuse de recibo positivo
+        - Venus actualiza el CVV con los servidores que responden y manda el nuevo CVV a los AVSG
+    - Como el mensaje se envia a AVSG y no al VSG no todos los servidores con replicas recibiran el CVV
+    - Todo CVV contendrá un contador de modificaciones exacto solo para el servidor local, el resto tendrá contadores más bajos
+    - Losa archivos en un volumen replicado son accesibles a cualquier cliente que pueda acceder al menos a uno de ellos
+    - El rendimiento puede mejorarse compartiendo la carga de peticiones entre diferentes replicas
+    - Ejemplos (Ver pag 10)
+
+- Coda: Semántica de actualización (Ver pág 12)
+
+- Coda: Acceso a las réplicas
+    - open
+        - Cuando el cliente solicita un fichero F que no esta en cache elige un servidor dentro de AVSG de manera aleatoria o por criterios de rendimiento
+        - Se solicita los atributos y el fichero al servidor elegido
+        - Cuando se recibe el fichero se verifica que es la misma copia que hay en todos los AVSG
+    - close
+        - Tras una modificación y cierre de un fichero sus atributos y contenidos se transmiten en paralelo a todos los AVSG
+        - Se deja en manos de los clientes la propagación de los cambios a servidores
+    - Promesa de devolucion de llamada
+        - La promesa de devolucion de llamada se mantiene en los servidores
+
+- Coda: Coherencia caché
+    - Cada Venus debe detectar los siguientes eventos dentro de los T segundos siguientes a que haya ocurrido:
+        - Aumento del tamaño de un AVSG por la nueva accesibilidad de un servidor
+        - Reducción del tamaño de un AVSG, debido a que un servidor se vuelve inaccesible
+        - Pérdida de un evento de devolución de llamada
+    - Para conseguir esto se hace lo siguiente
+        - Cada T segundos Venus envía un mensaje de sondeo a los VSG de los ficheros que tiene en cache
+    - Como se trata el caso de actualizaciones perdidas por un servidor por no estar en el AVSG de otro cliente que realiza la actualización
+        - En respuesta de los mensajes de sondeo de Venus, los servidores mandan un vector de versiones del volumen o CVV del volumen
+        - El CVV del volumen contiene un resumen de los VCC de todos los ficheros del volumen
+        - Si Venus deteta diferencias en los CVV del volumen devueltos quiere decir que el AVSG hay archivos que no están al dia
+        - Aunque en la cache puede haber ficheros de ese volumen que no hayan sido modificados, Venus elimina la promesa de devolución de llamada a todos los ficheros que tenga en la caché de ese volumen
+    - Reflexión:
+        - Venus sondea a los servidores en los VSG de los archivos que tiene en la cache
+        - Un simple mensaje sonda sirve para actualizar los AVSG y comprobar las devoluciones de llamada para todos los archivos en el volumen
+        - Teniendo en cuenta que T es relativamente grande (10 min en version experimental), estos mensajes no suponen un problema para el crecimiento en cliente, servidores y redes de área amplia
+
+- Coda: operación sin conexión
+    - La politica de reemplazo de los ficheros de la cache menos recientemente usados puede permitir trabajar desconectado solo un breve espacio de tiempo
+    - Cuando se restablece la conexion Coda empieza el proceso de reintegración para cada fichero modificado
+
+- Coda: Rendimiento
+    - Bajo cargas de referencia diseñadas para simular poblaciones de usuarios en un rango de 5 a 50 usuarios AFS típicos
+        - Sin replicacion no hay diferencias significativas entre el rendimiento de AFS y Coda
+        - Con triple replicacion
+            - 5 usuarios: tiempo de coda 5% mas que AFS sin replicacion
+            - 50 usuarios: tiempo de coda 70% mas que el 16% de AFS sin replicacion
+
+Coda: Reflexiones
+    - Coda utiliza CVV para detectar conflictos escritura-escritura sin tener en cuenta la semántica de los datos
+    - La semántica relativamente simple de los directorios hace posible la automatización de resolución de conflictos por Coda
