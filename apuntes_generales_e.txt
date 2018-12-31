@@ -1,0 +1,34 @@
+Tema 5: Servicios de red
+
+- Servicios de red: Paradigmas de la computación distribuida
+	- Niveles de abstracción de los diferentes paradigmas:
+		- (Alto) Espacios de objetos, aplicaciones colaborativas
+		- Servicios de red, ORB object request broker, agentes moviles
+		- Llamar a procedimientos remotos, invocacion de metodos remotos
+		- Cliente-servidor, peer-to-peer
+		- (Bajo) Paso de mensajes
+	- Paso de mensajes
+		- Los datos que representan mensajes se intercambian entre dos procesos un emisor y un receptor
+		- Los procesos conectados realizan la entrada y salida de los mensajes de forma similar a la escritura y lectura de ficheros
+		- La interfaz de programación de aplicaciones sockets se basa en este paradigma
+	- Cliente-Servidor
+		- El servidor es el proveedor de servicios y el cliente hace peticiones de los servicios
+		- Proporciona una abstracción eficiente para proporcionar servicios de red
+		- Ampliamente utilizado en la imlementación de protocolos que proporcionan diferentes servicios de red
+		- El paradigma cliente-servidor es inherente a muchas aplicaciones distribuidas
+	- Peer-to-peer
+		- Los procesos participantes interpretan los mismos papeles, con identicas capacidades y responsabilidades
+		- Muy apropiado para transferencias de ficheros grandes, mensajería, videoconferencias, trabajo colaborativo, etc.
+	- Modelo de llamadas a procedimientos remotos (RPC remote procedure call)
+		- La comunicación entre dos procesos se realiza utilizando llamadas a procedimientos remotos
+	- Paradigmas basados en objetos distribuidos
+		- Las apps acceden a objetos distribuidos sobre una red
+		- Los objetos proporcionan metodos, a traves de cuya invocación una app obtiene acceso a sus servicios
+		- Existen varios paradigmas dentro de esta categoría
+		- Paradigma basado en invocación a métodos remotos (RMI remote method invocation)
+		- Paradigma basado en Object Request Broker ORB
+		- Otros paradigmas
+	- Paradigma de espacio de objetos
+		- Los participantes en una aplicacion convergen en un espacio de objetos
+		- Un objeto en el espacio puede ser usado por un sólo participante a la vez
+	Continua en pagina 12
