@@ -31,4 +31,52 @@ Tema 5: Servicios de red
 	- Paradigma de espacio de objetos
 		- Los participantes en una aplicacion convergen en un espacio de objetos
 		- Un objeto en el espacio puede ser usado por un sólo participante a la vez
-	Continua en pagina 12
+	- Paradigma de agentes móviles
+		- Un agente móvil es un programa o objeto transportable
+		- Filosofía: el agente itinera por ciertos ordenadores
+	- Paradigma de servicio de red
+		- Los proveedores de servicios se registran en los servidores de directorio de una red
+		- Un proceso que desee un servicio particular contacta con el servidor de directorio en tiempo de ejecución, y si el servicio está disponible, al proceso se le da la referencia a dicho proceso
+		- Usando esta referencia el proceso interactua con el servicio
+		- El paradigma es esencialmente una extensión del paradigma de invocación de métodos remotos RMI
+		- Idealmente, los servicios pueden registrarse y ser accedidos con un identificador único global
+		- La tecnología Jine de Java se basa en este paradigma
+		- El protocolo SOAP (Simple Object Access Protocol) aplica este paradigma a los servicios accesibles en la web
+	- Paradigma de aplicaciones colaborativas (groupware)
+		- Es un modelo para trabajo colaborativo
+		- Los procesos participan en grupo en una sesión colaborativa
+		- Cada proceso puede hacer aportaciones a todo o parte del grupo, lo que permite a cada participante leer y escribir datos sobre una visualización compartida
+		- Los dos tipos de paradigma son: basado en mensajes o basado en pizarra
+
+- Servicios de red: Servicios web
+	- Los servicios web proporcionan servicios de red transportados por HTTP
+	- Están siendo propuestos como una nueva forma de construir aplicaciones de red desde componentes distribuidos (Servicios) Independientes del lenguaje y la plataforma
+	- Los protocolos y las API de la tecnología están evolucionando todavía
+	- Nos centraremos en:
+		- El protocolo protocolo simple de accesos (SOAP)
+		- La API SOAP de Apache
+	- Un servicio web se proporciona por un objeto servidor y se accede por un cliente
+	- El servidor y el cliente intercambian mensajes en la capa de aplicación en función del protocolo usado
+	- Un protocolo de descubrimiento de servicios permite al servicio ser registrado y localizado
+	- La capa de descripción del servicio permite que un servicio sea descrito en el directorio donde se registra
+	- La capa de mensajeria proporciona los mecanismos para la intercomunicación de procesos
+	- La capa de transporte envía los mensajes
+	- La capa de red se ocupa de la transmisión física y el encaminamiento de paquetes
+	- Protocolos predominantes para servicios web:
+		- Descubrimiento de servicios: UDDI
+		- Descripción de servicios: WSDL
+		- Mensajeria: XML, SOAP
+		- Transporte: TCP, HTTP, SMTP, Jabber
+		- Red: IP
+	- Arquitectura software de un servicio web
+		- El escuchador del servicio de la máquina servidora recoge las peticiones de servicio transmitidas sobre la red
+		- Cada petición se reenvía al proxy del servicio
+		- Éste invoca la lógica de la aplicación del objeto servicio y transfiere el valor devuelto al llamante
+
+- Servicios de red: SOAP
+	- Es un protocolo que extiende HTTP para permitir acceso a objetos distribuidos que representan servicios web
+	- El mensaje SOAP se codifica en XML
+	- El formato de un mensaje SOAP es el siguiente (ver pág 22)
+	- Una petición HTTP con una petición SOAP (ver pag 23)
+	- Una respuesta HTTP que contiene una respuesta SOAP (ver pag 29)
+	- Una respuesta HTTP que contiene una respuesta SOAP erronea (ver pag 30)
